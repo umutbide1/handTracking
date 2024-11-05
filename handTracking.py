@@ -26,5 +26,12 @@ while True:
             
             for id, lm in enumerate(handLms.landmark): # burada dosyada bulunan hangi nokta hangi ekleme ait kısmına göre id leri alıyoruz
                 print(id,lm)
+                h ,w ,c = img.shape
+                
+                cx,cy = int(lm.x*w) , int(lm.y*h)
+                
+                # bilek mesela sunumda 0 numara olduğu açıktı 
+                if id == 0: # 0 bilek id si olduğundan bileği alacak direkt
+                    cv2.circle(img, (cx,cy), 9, (255,0,0 ),cv2.FILLED)
     cv2.imshow("img", img)
     cv2.waitKey(1)

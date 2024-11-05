@@ -17,12 +17,14 @@ mpDraw = mp.solutions.drawing_utils
 while True:
     success, img = cap.read() # resim şuan BGR çünkü openCV o şekilde okuyor mp ise RGB okuyor
     imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    results = hands.process(imgRGB)
-    print(results.multi_hand_landmarks)
+    results = hands.process(imgRGB) # burada results içerisinde koordinatlar var ve görüntüde el var mı yok mu diye tracking yapılıyor
+    print(results.multi_hand_landmarks) # burada none ya da varsa koordinat ekrana basılıyor
     
-    if results.multi_hand_landmarks:
-        for handLms in results.multi_hand_landmarks: 
-            mpDraw.draw_landmarks(img, handLms, mpHand.HAND_CONNECTIONS)
-    
+    if results.multi_hand_landmarks: # none durumundaysa ekrana bir şey basılmamasını sağlayan koşul
+        for handLms in results.multi_hand_landmarks: #handLms adında bir değişken oluşturuldu ve koordinatlara nokta koyma işlemi başlatıldı
+            mpDraw.draw_landmarks(img, handLms, mpHand.HAND_CONNECTIONS) # noktalar koyuldu ve arasındaki bağlantı sağlandı
+            
+            for id, lm in enumerate(handLms.landmark): # burada dosyada bulunan hangi nokta hangi ekleme ait kısmına göre id leri alıyoruz
+                print(id,lm)
     cv2.imshow("img", img)
     cv2.waitKey(1)
